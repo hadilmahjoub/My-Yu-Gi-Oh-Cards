@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}ALL PACKS LIST{% endblock %}
+
+{% block body %}
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Title</th>
+            <th>&nbsp;</th>
+        </tr>
+    </thead>
+    <tbody>
+
+		{% for pack in packs%}
+        <tr>
+        	<td>{{ pack.id }}</td>
+            <td>{{ pack.title }}</td>
+            <td><a href="{{ path('pack_show', {'id': pack.id}) }}">show</a></td>
+        </tr>
+		{% endfor %} {# todos #}
+
+    </tbody>
+</table>
+
+
+
+
+
+
+{% endblock %} {# body #}

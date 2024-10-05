@@ -22,6 +22,9 @@ class Pack
     #[ORM\OneToMany(targetEntity: YGOCard::class, mappedBy: 'pack', orphanRemoval: true)]
     private Collection $ygo_cards;
 
+    #[ORM\Column(length: 255)]
+    private ?string $title = null;
+
     public function __construct()
     {
         $this->ygo_cards = new ArrayCollection();
@@ -58,6 +61,18 @@ class Pack
                 $ygoCard->setPack(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(string $title): static
+    {
+        $this->title = $title;
 
         return $this;
     }

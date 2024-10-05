@@ -1,0 +1,31 @@
+{# ... #}
+
+{% block title %}
+	YGOCard n°{{ ygoCard.id }}
+{% endblock %}
+
+{% block body %}
+    <h1>YGOCard</h1>
+
+    {% dump ygoCard %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ygoCard.id }}</td>
+            </tr>
+              
+            <tr>
+                <th>Name</th>
+                <td>{{ ygoCard.name }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <a href="{{ path('pack_show', {'id': ygoCard.pack.id}) }}">back to pack</a>
+
+{% endblock %} {# body #} 
+
+{# ... #} 

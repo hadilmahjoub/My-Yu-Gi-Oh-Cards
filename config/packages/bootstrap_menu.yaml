@@ -1,0 +1,7 @@
+bootstrap_menu:
+  menus:
+    main:
+      items:
+        packs:
+          label: 'Packs'
+          route: 'pack_list'

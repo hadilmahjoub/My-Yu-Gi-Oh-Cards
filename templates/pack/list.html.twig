@@ -2,7 +2,9 @@
 
 {% block title %}ALL PACKS LIST{% endblock %}
 
-{% block body %}
+{% block main %}
+
+<h1>All Packs</h1>
 
 
 <table class="table">
@@ -21,7 +23,7 @@
             <td>{{ pack.title }}</td>
             <td><a href="{{ path('pack_show', {'id': pack.id}) }}">show</a></td>
         </tr>
-		{% endfor %} {# todos #}
+		{% endfor %} {# packs #}
 
     </tbody>
 </table>

@@ -1,11 +1,11 @@
-{# ... #}
+{% extends 'base.html.twig' %}
 
 {% block title %}
 	Pack n°{{ pack.id }}
 {% endblock %}
 
-{% block body %}
-    <h1>Pack</h1>
+{% block main %}
+    <h1>Pack Details</h1>
 
     {% dump pack %}
 
@@ -19,39 +19,37 @@
                 
             </tr>
            </thead>
-        <tbody>
-              
-            <tr>
+           
+        <tbody>     
+			<tr>
                 <td>{{ pack.id }}</td>                
                 <td>{{ pack.title }}</td>
 
-                  <td>
-                      <ul>
-                      {%  for ygoCard in pack.getYgoCards() %}
-                          <li>
-                          {{ ygoCard.id }} {{ ygoCard.name }}
-                          </li>
-                      {% endfor %} {# pack.ygo_cards #}
-                      </ul> 
-                  </td>
-             
+                <td>
+                  <ul>
+                  {%  for ygoCard in pack.getYgoCards() %}
+                      <li>
+                      {{ ygoCard.id }} {{ ygoCard.name }}
+                      </li>
+                  {% endfor %} {# pack.ygo_cards #}
+                  </ul> 
+                </td>
               
-              
-                  <td>
-                      <ul>
-                      {%  for ygoCard in pack.getYgoCards() %}
-                          <li>
-      							<a href="{{ path('ygocard_show', {'id': ygoCard.id}) }}"> show details for {{ ygoCard.name }}</a>
-   	 					  </li>
-                      {% endfor %} {# pack.ygo_cards #}
-                      </ul> 
-                  </td>
-              
+                <td>
+                  <ul>
+                  {%  for ygoCard in pack.getYgoCards() %}
+                      <li>
+                			<a href="{{ path('ygocard_show', {'id': ygoCard.id}) }}"> show details for {{ ygoCard.name }}</a>
+                	  </li>
+                  {% endfor %} {# pack.ygo_cards #}
+                  </ul> 
+                </td>
+			</tr>
         </tbody>
     </table>
 
-    <a href="{{ path('pack_index') }}">back to list</a>
+    <a href="{{ path('pack_index') }}" class="btn btn-primary mt-mb-3">Back to List</a>
 
-{% endblock %} {# body #} 
+{% endblock %} {# main #} 
 
 {# ... #} 

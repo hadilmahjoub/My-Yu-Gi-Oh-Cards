@@ -1,11 +1,11 @@
-{# ... #}
+{% extends 'base.html.twig' %}
 
 {% block title %}
 	YGOCard n°{{ ygoCard.id }}
 {% endblock %}
 
-{% block body %}
-    <h1>YGOCard</h1>
+{% block main %}
+    <h1>Yu-Gi-Oh! Card Details</h1>
 
     {% dump ygoCard %}
 
@@ -24,8 +24,8 @@
         </tbody>
     </table>
 
-    <a href="{{ path('pack_show', {'id': ygoCard.pack.id}) }}">back to pack</a>
+    <a href="{{ path('pack_show', {'id': ygoCard.pack.id}) }}" class="btn btn-primary mt-mb-3">Back to Pack</a>
 
-{% endblock %} {# body #} 
+{% endblock %} {# main #} 
 
 {# ... #} 

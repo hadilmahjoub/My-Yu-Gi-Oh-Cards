@@ -9,10 +9,11 @@ use App\Entity\YGOCard;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Pack;
 
-#[Route('/pack')]
+#[Route('/')]
 class PackController extends AbstractController
 {
-    #[Route('/', name: 'app_pack')]
+    #[Route('/', name: 'home')]
+    #[Route('/pack', name: 'app_pack')]
     public function index(): Response
     {
         return $this->render('pack/index.html.twig', [
@@ -20,8 +21,8 @@ class PackController extends AbstractController
         ]);
     }
     
-    #[Route('/list', name: 'pack_list', methods: ['GET'])]
-    #[Route('/index', name: 'pack_index', methods: ['GET'])]
+    #[Route('/pack/list', name: 'pack_list', methods: ['GET'])]
+    #[Route('/pack/index', name: 'pack_index', methods: ['GET'])]
     public function listAction(ManagerRegistry $doctrine): Response
     {
         $entityManager= $doctrine->getManager();
@@ -86,7 +87,7 @@ class PackController extends AbstractController
      * @param Integer $id (note that the id must be an integer)
      */
     
-    #[Route('/{id}', name: 'pack_show', requirements: ['id' => '\d+'])]
+    #[Route('/pack/{id}', name: 'pack_show', requirements: ['id' => '\d+'])]
     
     public function show(ManagerRegistry $doctrine, $id): Response
     {

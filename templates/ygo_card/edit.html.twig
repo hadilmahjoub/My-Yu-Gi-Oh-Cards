@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit YGOCard{% endblock %}
+
+{% block main %}
+    <h1>Edit YGOCard</h1>
+
+    {{ include('ygo_card/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('pack_show', {'id' : ygo_card.pack.id}) }}" 
+       class="btn btn-primary mt-2 mb-2">Back to Pack</a>
+
+    {{ include('ygo_card/_delete_form.html.twig') }}
+{% endblock %}

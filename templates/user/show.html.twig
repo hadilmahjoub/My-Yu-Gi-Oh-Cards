@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User{% endblock %}
+
+{% block main %}
+    <h1>User Details</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ user.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ user.email}}</td>
+            </tr>
+            <tr>
+                <th>Pack</th>
+                <td>
+                    {% if user.pack %}
+                    	<a href="{{ path('pack_show', {'id' : user.pack.id}) }}" 
+                    	   class="btn btn-success mt-2 mb-2"> 
+                    	   		Show my Pack 
+                    	</a>
+                    {% else %}     
+                    	<em>no Pack found</em>
+            		{% endif %}
+                	
+                </td>
+            </tr>
+            <tr>
+                <th>Showcases</th>
+                <td>
+                    {% if user.showcases %}
+                    	<a href="{{ path('app_user_showcases_show', {'id' : user.id}) }}" 
+                    	   class="btn btn-success mt-2 mb-2"> 
+                    	   		Show my Showcases list
+                    	</a>
+                    {% else %}     
+                    	<em>no Showcases found</em>
+            		{% endif %}
+                	
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_user_index') }}" class="btn btn-primary mt-2 mb-2">Back to Users list</a>
+
+
+{% endblock %}

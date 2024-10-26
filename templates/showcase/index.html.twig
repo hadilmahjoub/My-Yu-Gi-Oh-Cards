@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Showcase index{% endblock %}
+
+{% block main %}
+    <h1>Showcase index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Published</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for showcase in showcases %}
+            <tr>
+                <td>{{ showcase.id }}</td>
+                <td>{{ showcase.description }}</td>
+                <td>{{ showcase.published ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_showcase_show', {'id': showcase.id}) }}">show</a>
+                    <a href="{{ path('app_showcase_edit', {'id': showcase.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_showcase_new') }}">Create new Showcase</a>
+{% endblock %}

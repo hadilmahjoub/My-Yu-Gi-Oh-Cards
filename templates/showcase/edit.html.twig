@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Showcase{% endblock %}
+
+{% block main %}
+    <h1>Edit Showcase</h1>
+
+    {{ include('showcase/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_showcase_show', {'id' : showcase.id} ) }}" class="btn btn-primary mt-2 mb-2">Back to Showcase details</a>
+    <a href="{{ path('app_user_showcases_show', {'id' : showcase.creator.id} ) }}" class="btn btn-secondary mt-2 mb-2">Back to list</a>
+
+    {{ include('showcase/_delete_form.html.twig') }}
+{% endblock %}

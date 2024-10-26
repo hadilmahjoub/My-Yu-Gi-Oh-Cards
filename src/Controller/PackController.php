@@ -16,9 +16,12 @@ class PackController extends AbstractController
     #[Route('/pack', name: 'app_pack')]
     public function index(): Response
     {
+        
         return $this->render('pack/index.html.twig', [
             'controller_name' => 'PackController',
         ]);
+        
+        // throw $this->createNotFoundException('La page n\'est pas disponible.');
     }
     
     #[Route('/pack/list', name: 'pack_list', methods: ['GET'])]
@@ -88,7 +91,6 @@ class PackController extends AbstractController
      */
     
     #[Route('/pack/{id}', name: 'pack_show', requirements: ['id' => '\d+'])]
-    
     public function show(ManagerRegistry $doctrine, $id): Response
     {
         $packRepo = $doctrine->getRepository(Pack::class);

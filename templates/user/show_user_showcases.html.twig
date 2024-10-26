@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Showcases list{% endblock %}
+
+{% block main %}
+    <h1>Showcases list for User "{{ user.email }}"</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Description</th>
+                <th>Published</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for showcase in showcases %}
+            <tr>
+                <td>{{ showcase.id }}</td>
+                <td>{{ showcase.description }}</td>
+                <td>{{ showcase.published ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_showcase_show', {'id': showcase.id}) }}" class="btn btn-primary mt-2 mb-2">Show</a>
+                    <a href="{{ path('app_showcase_edit', {'id': showcase.id}) }}" class="btn btn-success mt-2 mb-2">Edit</a>
+                    {{ include('showcase/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+	<a href="{{ path('app_user_show', {'id': user.id}) }}" class="btn btn-primary mt-2 mb-2">Back to User</a>
+    <a href="{{ path('app_showcase_new', {'id': user.id}) }}" class="btn btn-success mt-2 mb-2">Create new Showcase</a>
+{% endblock %}

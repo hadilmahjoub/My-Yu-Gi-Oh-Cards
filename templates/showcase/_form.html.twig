@@ -1,0 +1,46 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.creator) }}
+        {{ form_widget(form.creator, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.creator) }}
+    </div>
+    
+    <div class="form-check mb-3">
+        {{ form_widget(form.published, {'attr': {'class': 'form-check-input'}}) }}
+        {{ form_label(form.published, null, {'attr': {'class': 'form-check-label'}}) }}
+        {{ form_errors(form.published) }}
+    </div>
+    
+    {#
+    <div class="mb-3">
+        <label>{{ form_label(form.ygoCards) }}</label>
+        <div class="form-check">
+            {% for choice in form.ygoCards %}
+                <div class="form-check mb-2">
+                    {{ form_widget(choice, {'attr': {'class': 'form-check-input'}}) }}
+                    {{ form_label(choice, null, {'attr': {'class': 'form-check-label'}}) }}
+                </div>
+            {% endfor %}
+        </div>
+        {{ form_errors(form.ygoCards) }}
+    </div>
+    #}
+    
+    <div class="mb-3">
+        {{ form_label(form.ygoCards) }}
+        {{ form_widget(form.ygoCards, {'attr': {'class': 'form-select', 'size': '5'}}) }} <!-- Dropdown multiple -->
+        {{ form_errors(form.ygoCards) }}
+    </div>
+    
+        
+
+    <button class="btn btn-success mt-2 mb-2">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+

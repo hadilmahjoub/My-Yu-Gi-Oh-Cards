@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+	YGOCard n°{{ ygoCard.id }}
+{% endblock %}
+
+{% block main %}
+    <h1>Yu-Gi-Oh! Card Details</h1>
+
+    {% dump ygoCard %}
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ ygoCard.id }}</td>
+            </tr>
+              
+            <tr>
+                <th>Name</th>
+                <td>{{ ygoCard.name }}</td>
+            </tr>
+            
+            <tr>
+                <th>Pack</th>
+                <td>{{ ygoCard.pack.title }}</td>
+            </tr>
+            
+        </tbody>
+    </table>
+
+    <a href="{{ path('pack_show', {'id': ygoCard.pack.id}) }}" class="btn btn-primary mt-mb-3">Back to Pack</a>
+    <a href="{{ path('app_showcase_show', { 'id': showcase.id}) }}" class="btn btn-success mt-mb-3">Back to Showcase</a>
+    
+
+{% endblock %} {# main #} 
+
+{# ... #} 

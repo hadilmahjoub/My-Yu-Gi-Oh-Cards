@@ -25,9 +25,21 @@ class Pack
     #[ORM\Column(length: 255)]
     private ?string $title = null;
 
+    #[ORM\OneToOne(mappedBy: 'pack', cascade: ['persist', 'remove'])]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->ygo_cards = new ArrayCollection();
+    }
+    
+    /**
+     * @return string
+     */
+    public function __toString()
+    {
+        $s = 'ID : '. $this->getId() .' | Title : '. $this->getTitle();
+        return $s;
     }
 
     public function getId(): ?int
@@ -73,6 +85,28 @@ class Pack
     public function setTitle(string $title): static
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        // unset the owning side of the relation if necessary
+        if ($user === null && $this->user !== null) {
+            $this->user->setPack(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($user !== null && $user->getPack() !== $this) {
+            $user->setPack($this);
+        }
+
+        $this->user = $user;
 
         return $this;
     }

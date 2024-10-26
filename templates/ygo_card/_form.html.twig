@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+    <div class="mb-3">
+        {{ form_label(form.name) }}
+        {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.name) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.pack) }}
+        {{ form_widget(form.pack, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.pack) }}
+    </div>
+
+    <button class="btn btn-success mt-2 mb-2">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+

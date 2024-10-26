@@ -13,7 +13,7 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Element</th>
+                <th>Title</th>
                 <th>YGO Cards</th>
                 <th>&nbsp;</th>
                 
@@ -39,7 +39,10 @@
                   <ul>
                   {%  for ygoCard in pack.getYgoCards() %}
                       <li>
-                			<a href="{{ path('ygocard_show', {'id': ygoCard.id}) }}"> show details for {{ ygoCard.name }}</a>
+                			<a href="{{ path('app_ygo_card_show', {'id': ygoCard.id}) }}" 
+                			   class="btn btn-secondary mt-2 mb-2">
+                			   		Show details for {{ ygoCard.name }}
+                			</a>
                 	  </li>
                   {% endfor %} {# pack.ygo_cards #}
                   </ul> 
@@ -48,7 +51,10 @@
         </tbody>
     </table>
 
-    <a href="{{ path('pack_index') }}" class="btn btn-primary mt-mb-3">Back to List</a>
+   <a href="{{ path('app_user_show', {'id': pack.user.id}) }}" class="btn btn-primary mt-2 mb-2">Back to User</a>
+   <a href="{{ path('app_ygo_card_new', {'id': pack.id}) }}" class="btn btn-success mt-2 mb-2">Add new YGOCard</a>
+   
+
 
 {% endblock %} {# main #} 
 

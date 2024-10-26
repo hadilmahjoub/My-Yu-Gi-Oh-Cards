@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\YGOCardRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: YGOCardRepository::class)]
@@ -19,6 +21,17 @@ class YGOCard
     #[ORM\ManyToOne(inversedBy: 'ygo_cards')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Pack $pack = null;
+
+    /**
+     * @var Collection<int, Showcase>
+     */
+    #[ORM\ManyToMany(targetEntity: Showcase::class, mappedBy: 'ygoCards')]
+    private Collection $showcases;
+
+    public function __construct()
+    {
+        $this->showcases = new ArrayCollection();
+    }
     
     
     /**
@@ -27,7 +40,7 @@ class YGOCard
     public function __toString()
     {
         $s = '';
-        $s .= 'ID : '. $this->getId() .' | Name : '. $this->getName() .' | Pack ID : '. $this->getPack()->getId();
+        $s .= 'ID : '. $this->getId() .' | Name : '. $this->getName() .' | Pack : '. $this->getPack()->getTitle();
         return $s;
     }
 
@@ -56,6 +69,33 @@ class YGOCard
     public function setPack(?Pack $pack): static
     {
         $this->pack = $pack;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Showcase>
+     */
+    public function getShowcases(): Collection
+    {
+        return $this->showcases;
+    }
+
+    public function addShowcase(Showcase $showcase): static
+    {
+        if (!$this->showcases->contains($showcase)) {
+            $this->showcases->add($showcase);
+            $showcase->addYgoCard($this);
+        }
+
+        return $this;
+    }
+
+    public function removeShowcase(Showcase $showcase): static
+    {
+        if ($this->showcases->removeElement($showcase)) {
+            $showcase->removeYgoCard($this);
+        }
 
         return $this;
     }

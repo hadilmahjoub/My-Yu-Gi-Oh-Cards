@@ -56,6 +56,22 @@ final class ShowcaseController extends AbstractController
     #[Route('/{id}', name: 'app_showcase_show', methods: ['GET'])]
     public function show(Showcase $showcase): Response
     {
+        $hasAccess = false;
+        
+        if($this->isGranted('ROLE_ADMIN') || $showcase->isPublished()) {
+            $hasAccess = true;
+        }
+        else {
+            $member = $this->getUser();
+            if ( $member &&  ($member == $showcase->getCreator()) ) {
+                $hasAccess = true;
+            }
+        }
+        
+        if(! $hasAccess) {
+            throw $this->createAccessDeniedException("You cannot access the requested resource!");
+        }
+        
         return $this->render('showcase/show.html.twig', [
             'showcase' => $showcase,
         ]);
@@ -101,6 +117,22 @@ final class ShowcaseController extends AbstractController
         // if(! $showcase->isPublished()) {
         //   throw $this->createAccessDeniedException("You cannot access the requested ressource!");
         //}
+        
+        $hasAccess = false;
+        
+        if($this->isGranted('ROLE_ADMIN') || $showcase->isPublished()) {
+            $hasAccess = true;
+        }
+        else {
+            $member = $this->getUser();
+            if ( $member &&  ($member == $showcase->getCreator()) ) {
+                $hasAccess = true;
+            }
+        }
+        
+        if(! $hasAccess) {
+            throw $this->createAccessDeniedException("You cannot access the requested ressource!");
+        }
         
         return $this->render(
             'showcase/ygocard_show.html.twig',

@@ -100,6 +100,12 @@ class PackController extends AbstractController
             throw $this->createNotFoundException('The pack does not exist');
         }
         
+        // Vérifie si l'utilisateur authentifié est le propriétaire du pack ou un administrateur
+        $hasAccess = $this->isGranted('ROLE_ADMIN') || ($this->getUser() === $pack->getUser());
+        if (!$hasAccess) {
+            throw $this->createAccessDeniedException("You cannot access another member's pack!");
+        }
+        
         return $this->render('pack/show.html.twig',
             [ 'pack' => $pack]
             );

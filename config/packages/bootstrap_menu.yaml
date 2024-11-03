@@ -8,3 +8,18 @@ bootstrap_menu:
         users:
           label: 'Users'
           route: 'app_user_index'
+    anonymousaccount:
+      items:
+        login:
+          label: 'Login'
+          route: 'app_login'
+        # Uncomment if you have a registration route
+        # register:
+        #   label: 'Register'
+        #   route: 'app_register'
+    account:
+      items:
+        logout:
+          label: 'Logout'
+          route: 'app_logout'
+          roles: ['ROLE_USER']

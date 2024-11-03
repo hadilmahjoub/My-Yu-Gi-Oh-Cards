@@ -3,32 +3,21 @@
 namespace App\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Persistence\ObjectManager;
 use App\Entity\Showcase;
 use App\Entity\YGOCard;
 use App\Entity\Pack;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use App\Entity\User;
 
 
-class AppFixtures extends Fixture
+class AppFixtures extends Fixture implements DependentFixtureInterface
 {
-    private UserPasswordHasherInterface $hasher;
-    
-    public function __construct(UserPasswordHasherInterface $hasher)
-    {
-        $this->hasher = $hasher;
-    }
-    
-    
      
     public function load(ObjectManager $manager): void
-    {
-        
-        // Generate users test data
-        $users = $this->loadUsersData($manager);
-        
+    {        
         // Create a Pack for each user and fill it with random YGO cards
+        /*
         foreach ($users as $user) {
             $pack = $this->createPackForUser($manager, $user);
             $this->fillPackWithRandomYGOCard($manager, $pack);
@@ -36,45 +25,29 @@ class AppFixtures extends Fixture
             // Create two showcases for the user and fill them with cards from the user's pack
             $this->loadShowcasesForUser($manager, $user, $pack);
         }
+        */
         
-        $manager->flush();
-    }
-    
-    /**
-     * Generates initialization data for members :
-     *  [email, plain text password]
-     * @return \\Generator
-     */
-    private function membersGenerator()
-    {
-        yield ['olivier@localhost','123456', 'ROLE_USER'];
-        yield ['slash@localhost','123456', 'ROLE_USER'];
-        yield ['admin@localhost','123456', 'ROLE_ADMIN'];
-    }
-    
-    
-    private function loadUsersData(ObjectManager $manager) : array {
-        $users = [];
+        // Récupère les utilisateurs depuis la base de données pour associer les Packs et Showcases
+        $userEmails = ['olivier@localhost', 'slash@localhost', 'admin@localhost'];
         
-        foreach ($this->membersGenerator() as [$email, $plainPassword, $role]) {
-            $user = new User();
-            $password = $this->hasher->hashPassword($user, $plainPassword);
-            $user->setEmail($email);
-            $user->setPassword($password);
+        foreach ($userEmails as $email) {
+            $user = $manager->getRepository(User::class)->findOneBy(['email' => $email]);
             
-            $roles = array();
-            $roles[] = $role;
-            $user->setRoles($roles);
-            
-            $manager->persist($user);
-            
-            $users[] = $user;
+            if ($user) {
+                // Créer un Pack pour chaque utilisateur
+                $pack = $this->createPackForUser($manager, $user);
+                
+                // Remplir le Pack avec des cartes YGO
+                $this->fillPackWithRandomYGOCard($manager, $pack);
+                
+                // Créer deux showcases pour chaque utilisateur
+                $this->loadShowcasesForUser($manager, $user, $pack);
+            }
         }
         
         $manager->flush();
-        
-        return $users;
     }
+    
     
     
     private function createPackForUser(ObjectManager $manager, User $user): Pack
@@ -151,65 +124,6 @@ class AppFixtures extends Fixture
         }
     }
     
-    /*
-    private function createPacks(ObjectManager $manager) : array {
-        
-        $all_packs = [];
-        
-        $pack_list_names = ["DARK", 
-							"DIVINE", 
-							"EARTH", 
-							"FIRE", 
-							"LIGHT", 
-							"WATER", 
-							"WIND"];
-        
-        foreach ($pack_list_names as $pack_name) {
-            $pack = new Pack();
-            $pack->setTitle($pack_name);
-            $manager->persist($pack);
-            
-            $all_packs[] = $pack;
-        }
-        
-        $manager->flush();
-        
-        return $all_packs;
-    }
-    
-    private function getYGOCardsData()
-    {
-        yield 'DARK' => ['Dark Magician', 'Summoned Skull', 'Kuriboh'];
-        yield 'DIVINE' => ['Obelisk the Tormentor', 'Slifer the Sky Dragon'];
-        yield 'EARTH' => ['Gaia the Fierce Knight', 'Celtic Guardian'];
-        yield 'FIRE' => ['Red-Eyes Black Dragon', 'Blazing Inpachi'];
-        yield 'LIGHT' => ['Blue-Eyes White Dragon', 'Mystical Elf'];
-        yield 'WATER' => ['Levia-Dragon - Daedalus', 'Abyss Soldier'];
-        yield 'WIND' => ['Harpie Lady', 'Elemental Hero Avian'];
-    }
-    
-    private function loadsYGOCards(ObjectManager $manager, array $all_packs) {
-  
-        foreach ($all_packs as $pack) {
-            $packTitle = $pack->getTitle();
-            
-            $cards = $this->getYGOCardsData();
-            
-            foreach ($cards as $title => $cardsNames) {
-                if ($title === $packTitle) {
-                    foreach ($cardsNames as $cardName) {
-                        $card = new YGOCard();
-                        $card->setName($cardName);
-                        $card->setPack($pack); // Associate the card with the pack
-                        $manager->persist($card);
-                    }
-                }
-            }
-        }
-        
-        $manager->flush();
-    }*/
-    
     private function loadShowcases(ObjectManager $manager, array $users): array
     {
         $showcases = [];
@@ -256,4 +170,11 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
     
+    
+    public function getDependencies()
+    {
+        return [
+            UserFixtures::class,
+        ];
+    }
 }

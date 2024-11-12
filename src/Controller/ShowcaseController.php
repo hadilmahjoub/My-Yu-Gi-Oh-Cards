@@ -137,7 +137,7 @@ final class ShowcaseController extends AbstractController
         return $this->render(
             'showcase/ygocard_show.html.twig',
             [ 
-                'ygoCard' => $ygocard,
+                'ygo_card' => $ygocard,
                 'showcase' => $showcase,
             ]
             );

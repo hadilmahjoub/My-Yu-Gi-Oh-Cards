@@ -34,12 +34,28 @@ final class YGOCardController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
+            /*
+            // Change content-type according to image's
+            $imagefile = $ygoCard->getImageFile();
+            if($imagefile) {
+                $mimetype = $imagefile->getMimeType();
+                $ygoCard->setContentType($mimetype);
+            }
+            */
+            
             $entityManager->persist($ygoCard);
             $entityManager->flush();
 
             // return $this->redirectToRoute('app_ygo_card_index', [], Response::HTTP_SEE_OTHER);
+            /*
             return $this->redirectToRoute('pack_show', [
                 'id' => $ygoCard->getPack()->getId(),
+            ], Response::HTTP_SEE_OTHER);
+            */
+            
+            return $this->redirectToRoute('app_ygo_card_show', [
+                'id' => $ygoCard->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 
@@ -67,8 +83,14 @@ final class YGOCardController extends AbstractController
             $entityManager->flush();
 
             // return $this->redirectToRoute('app_ygo_card_index', [], Response::HTTP_SEE_OTHER);
+            /*
             return $this->redirectToRoute('pack_show', [
                 'id' => $ygoCard->getPack()->getId(),
+            ], Response::HTTP_SEE_OTHER);
+            */
+            
+            return $this->redirectToRoute('app_ygo_card_show', [
+                'id' => $ygoCard->getId(),
             ], Response::HTTP_SEE_OTHER);
         }
 

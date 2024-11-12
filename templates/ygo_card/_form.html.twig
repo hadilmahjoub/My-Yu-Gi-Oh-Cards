@@ -11,6 +11,67 @@
         {{ form_errors(form.pack) }}
     </div>
 
-    <button class="btn btn-success mt-2 mb-2">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }}
+    <div class="mb-3">
+        {{ form_label(form.description) }}
+        {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': '3'}}) }}
+        {{ form_errors(form.description) }}
+    </div>
 
+    <div class="mb-3">
+        {{ form_label(form.attribute) }}
+        {{ form_widget(form.attribute, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.attribute) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.type) }}
+        {{ form_widget(form.type, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.type) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.race) }}
+        {{ form_widget(form.race, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.race) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.level) }}
+        {{ form_widget(form.level, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.level) }}
+    </div>
+    
+    <div class="mb-3">
+        {{ form_label(form.imageName) }}
+        {{ form_widget(form.imageName, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.imageName) }}
+    </div>
+
+    <div class="mb-3">
+        {{ form_label(form.imageFile, 'Update Image (JPEG/PNG file)') }}
+        {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+        {{ form_errors(form.imageFile) }}
+    </div>
+    
+    
+
+    <button class="btn btn-success mt-2 mb-2">{{ button_label|default('Save') }}</button>
+
+	{#
+ 	<!-- Image Preview Section -->
+    {% if form.imageFile.vars.value %}
+        <div class="col-md-4">
+            <div class="card mb-3">
+                <img src="{{ vich_uploader_asset(ygo_card, 'imageFile') }}" class="card-img-top img-fluid" alt="{{ ygo_card.name }}">
+                <div class="card-body">
+                    <h5 class="card-title">{{ ygo_card.name }}</h5>
+                    <p class="card-text">Current image for this card.</p>
+                    <a href="{{ vich_uploader_asset(ygo_card, 'imageFile') }}" download class="btn btn-outline-primary">
+                        <i class="bi bi-download"></i> Download Image
+                    </a>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+    #}       
+{{ form_end(form) }}

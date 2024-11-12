@@ -1,38 +1,77 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}
-	YGOCard n°{{ ygoCard.id }}
+	ygo_card n°{{ ygo_card.id }}
 {% endblock %}
 
+
 {% block main %}
-    <h1>Yu-Gi-Oh! Card Details</h1>
+    <h1 class="text-center my-4">Yu-Gi-Oh! Card Details</h1>
 
-    {% dump ygoCard %}
+    <div class="container">
+        <div class="row">
+            <!-- Image Column -->
+            <div class="col-md-4 text-center">
+                {% if ygo_card.imageName %}
+                    <img src="{{ vich_uploader_asset(ygo_card, 'imageFile') }}" alt="{{ ygo_card.name }}" class="img-fluid rounded shadow" style="max-width: 80%;">
+                {% else %}
+                    <p class="text-muted">No image available</p>
+                {% endif %}
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ ygoCard.id }}</td>
-            </tr>
-              
-            <tr>
-                <th>Name</th>
-                <td>{{ ygoCard.name }}</td>
-            </tr>
-            
-            <tr>
-                <th>Pack</th>
-                <td>{{ ygoCard.pack.title }}</td>
-            </tr>
-            
-        </tbody>
-    </table>
+            <!-- Details Column -->
+            <div class="col-md-8">
+                <table class="table table-striped">
+                    <tbody>
+                        <tr>
+                            <th scope="row">Id</th>
+                            <td>{{ ygo_card.id }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Name</th>
+                            <td>{{ ygo_card.name }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Pack</th>
+                            <td>{{ ygo_card.pack }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Description</th>
+                            <td>{{ ygo_card.description }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Type</th>
+                            <td>{{ ygo_card.type }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Attribute</th>
+                            <td>{{ ygo_card.attribute }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Race</th>
+                            <td>{{ ygo_card.race }}</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">Level</th>
+                            <td>{{ ygo_card.level }}</td>
+                        </tr>
+                    </tbody>
+                </table>
 
-    <a href="{{ path('pack_show', {'id': ygoCard.pack.id}) }}" class="btn btn-primary mt-mb-3">Back to Pack</a>
-    <a href="{{ path('app_showcase_show', { 'id': showcase.id}) }}" class="btn btn-success mt-mb-3">Back to Showcase</a>
-    
+                
+                <a href="{{ path('pack_show', {'id': ygo_card.pack.id}) }}" class="btn btn-primary mt-mb-3">Back to Pack</a>
+                <a href="{{ path('app_showcase_show', { 'id': showcase.id}) }}" class="btn btn-success mt-mb-3">Back to Showcase</a>
+                
+                {#TODO I DONO #}
+                {#
+                <a href="{{ path('app_ygo_card_edit', {'id': ygo_card.id}) }}" class="btn btn-success mt-mb-3">Edit</a>
+                {{ include('ygo_card/_delete_form.html.twig') }}
+                #}
+                
+            </div>
+        </div>
+    </div>
+{% endblock %}
 
-{% endblock %} {# main #} 
 
 {# ... #} 

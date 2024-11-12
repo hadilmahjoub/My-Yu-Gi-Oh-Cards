@@ -40,6 +40,8 @@
                     {% else %}     
                     	<em>no Showcases found</em>
             		{% endif %}
+            		
+            		<a href="{{ path('app_showcase_new', {'id': user.id}) }}" class="btn btn-warning mt-2 mb-2">Create new Showcase</a>
                 	
                 </td>
             </tr>

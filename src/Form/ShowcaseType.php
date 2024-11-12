@@ -45,7 +45,7 @@ class ShowcaseType extends AbstractType
                 'class' => YGOCard::class,
                 'label' => 'YGO Cards',
                 'multiple' => true,
-                'expanded' => false, // true
+                'expanded' => true, // true
                 'by_reference' => false,
                 'choice_label' => 'name',
                 

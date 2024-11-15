@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Bienvenue dans le Système de Gestion Yu-Gi-Oh!{% endblock %}
+
+{% block body %}
+<div class="container-fluid p-0">
+    <!-- Titre avec fond image pleine largeur -->
+    <div class="text-white text-center py-5" style="
+        background-image: url('images/background.png');
+        background-size: cover;
+        background-position: center;
+        color: #ffffff;
+    ">
+        <h1 class="display-4 fw-bold">
+            <i class="fas fa-dragon me-2"></i> Bienvenue dans l’Univers Ultime des Collectionneurs des Cartes Yu-Gi-Oh! 🎴
+        </h1>
+    </div>
+</div>
+
+<!-- Section de présentation -->
+<div class="container mt-5">
+    {% if app.user %}
+        <div class="mt-5">
+            <div class="alert alert-success text-center">
+                <h2>Bonjour, {{ app.user.email }} 👋</h2>
+                <p class="mb-0">Heureux de vous revoir !</p>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <div class="d-flex justify-content-center my-4">
+                <a href="{{ path('app_user_show', {'id': app.user.id}) }}" class="btn btn-primary mx-1">
+                    <i class="fas fa-user"></i> Mon Profil
+                </a>
+                <a href="{{ app.user.pack ? path('pack_show', {'id': app.user.pack.id}) : '#' }}" 
+                   class="btn btn-success {{ app.user.pack ? '' : 'disabled' }} mx-1">
+                    <i class="fas fa-box"></i> Mon Pack
+                </a>
+                <a href="{{ path('app_user_showcases_show', {'id': app.user.id}) }}" class="btn btn-warning mx-1">
+                    <i class="fas fa-images"></i> Mes Showcases
+                </a>
+            </div>
+        </div>
+    {% else %}
+        <!-- Section pour utilisateur non authentifié -->
+        <div class="alert alert-info text-center mt-5">
+            <h2>Bienvenue ! 👋</h2>
+            <p>Veuillez vous connecter pour accéder à vos packs et showcases.</p>
+            <a href="{{ path('app_login') }}" class="btn btn-primary">
+                <i class="fas fa-sign-in-alt"></i> Connexion
+            </a>
+        </div>
+    {% endif %}
+    
+    <div class="card shadow-sm p-4 mb-5">
+        <p>Ce projet est conçu pour les passionnés de cartes <strong>Yu-Gi-Oh!</strong> souhaitant organiser et gérer leurs collections de manière élégante. Chaque utilisateur dispose d’un <strong>Pack</strong> principal, dans lequel il peut regrouper ses cartes de base.</p>
+
+        <p>En plus de leur Pack principal, les utilisateurs peuvent créer plusieurs <strong>Showcases</strong> personnalisés pour présenter leurs collections de manière thématique. Ces Showcases offrent une flexibilité pour organiser les cartes selon les préférences de chaque utilisateur.</p>
+
+        <p>Plongez dans l'aventure et explorez les fonctionnalités pour gérer votre <strong>Pack</strong> et créer des <strong>Showcases</strong> uniques adaptés à vos goûts.</p>
+    </div>
+    
+    {% if app.user %}
+        <div class="my-5">
+            <!-- Logout Section -->
+            <div class="card shadow-sm text-center mt-5 p-4" style="background-color: #f8d7da; border-color: #f5c2c7;">
+                <h2 class="text-danger">Au Revoir !</h2>
+                <p>Lorsque vous êtes prêt à partir, vous pouvez vous déconnecter ci-dessous.</p>
+                <a href="{{ path('app_logout') }}" class="btn btn-danger mt-3 mx-auto" style="width: auto;">
+                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                </a>
+            </div>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

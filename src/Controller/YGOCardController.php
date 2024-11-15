@@ -18,8 +18,17 @@ final class YGOCardController extends AbstractController
     #[Route(name: 'app_ygo_card_index', methods: ['GET'])]
     public function index(ygoCardRepository $ygoCardRepository): Response
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $ygoCards = $ygoCardRepository->findAll();
+        }
+        else {
+            $user = $this->getUser();
+            $ygoCards = $ygoCardRepository->findUserYGOCards($user);
+        }
+        
         return $this->render('ygo_card/index.html.twig', [
-            'ygo_cards' => $ygoCardRepository->findAll(),
+            //'ygo_cards' => $ygoCardRepository->findAll(),
+            'ygo_cards' => $ygoCards,
         ]);
     }
 

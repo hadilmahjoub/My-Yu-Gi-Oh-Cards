@@ -77,7 +77,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
         $card->setType($cardData['type']);
         $card->setRace($cardData['race']);
         $card->setLevel($cardData['level']);
-        //$card->setImageFile($cardData['img']);
         $card->setPack($pack);
         
         

@@ -3,52 +3,70 @@
 {% block title %}Showcase{% endblock %}
 
 {% block main %}
-    <h1>Showcase</h1>
+    <h1 class="text-center mb-4">Showcase Details</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ showcase.id }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ showcase.description }}</td>
-            </tr>
-            <tr>
-                <th>Creator</th>
-                <td>{{ showcase.creator.email}}</td>
-            </tr>
-            <tr>
-                <th>Published</th>
-                <td>{{ showcase.published ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>Yu-Gi-Oh! Cards</th>
-                <td>
-                    <ul>
-                      {% for ygoCard in showcase.ygoCards %}
-                      <li>
-                        <a href="{{ path('app_showcase_ygocard_show', 
-                                    {
-                                    	'showcase_id' : showcase.id,
-                                    	'ygocard_id' : ygoCard.id,
-                                    }) }}">{{ ygoCard }}</a>  
-                      </li>
-                      {% else %}     
-                         <em>no YGO Cards found</em>
-            		{% endfor %} {# todos #}
-                    </ul>
-                    
-                    
-                </td>
-			</tr>
-        </tbody>
-    </table>
+    <!-- Showcase Details Table -->
+        <table class="table table-bordered">
+            <tbody>
+                <tr>
+                    <th class="table-primary" style="width: 150px;">Id</th>
+                    <td>{{ showcase.id }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary">Description</th>
+                    <td>{{ showcase.description }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary">Creator</th>
+                    <td>{{ showcase.creator.email }}</td>
+                </tr>
+                <tr>
+                    <th class="table-primary">Published</th>
+                    <td>{{ showcase.published ? 'Yes' : 'No' }}</td>
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('app_user_showcases_show', {'id': showcase.creator.id}) }}" class="btn btn-primary mt-2 mb-2">Back to list</a>
+        <!-- YGO Cards List Table -->
+        <h2 class="mt-4">Yu-Gi-Oh! Cards</h2>
+        <table class="table table-striped table-hover">
+            <thead class="table-primary">
+                <tr>
+                    <th scope="col" style="width: 50px;">#</th>
+                    <th scope="col">Card Name</th>
+                    <th scope="col" style="width: 150px;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for ygoCard in showcase.ygoCards %}
+                    <tr>
+                        <td>{{ ygoCard.id }}</td>
+                        <td>{{ ygoCard.name }}</td>
+                        <td>
+                            <a href="{{ path('app_showcase_ygocard_show', {
+                                'showcase_id' : showcase.id,
+                                'ygocard_id' : ygoCard.id
+                            }) }}" class="btn btn-info btn-sm">
+                                Show Details
+                            </a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="3" class="text-center text-muted">No YGO Cards available in this showcase</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-center my-4">
+            <a href="{{ path('app_user_showcases_show', {'id': showcase.creator.id}) }}" class="btn btn-secondary mx-2 mt-2 mb-2">Back to list</a>
+            <a href="{{ path('app_showcase_edit', {'id': showcase.id}) }}" class="btn btn-success mx-2 mt-2 mb-2">Edit</a>
+            <div class="mx-2">
+                {{ include('showcase/_delete_form.html.twig') }}
+            </div>
+        </div>
 
-    <a href="{{ path('app_showcase_edit', {'id': showcase.id}) }}" class="btn btn-success mt-2 mb-2">Edit</a>
-
-    {{ include('showcase/_delete_form.html.twig') }}
+    
 {% endblock %}

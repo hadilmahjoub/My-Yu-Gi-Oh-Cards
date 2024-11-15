@@ -1,54 +1,54 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User{% endblock %}
+{% block title %}User Details{% endblock %}
 
 {% block main %}
-    <h1>User Details</h1>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">User Details</h2>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ user.id }}</td>
-            </tr>
-            <tr>
-                <th>Email</th>
-                <td>{{ user.email}}</td>
-            </tr>
-            <tr>
-                <th>Pack</th>
-                <td>
-                    {% if user.pack %}
-                    	<a href="{{ path('pack_show', {'id' : user.pack.id}) }}" 
-                    	   class="btn btn-success mt-2 mb-2"> 
-                    	   		Show my Pack 
-                    	</a>
-                    {% else %}     
-                    	<em>no Pack found</em>
-            		{% endif %}
-                	
-                </td>
-            </tr>
-            <tr>
-                <th>Showcases</th>
-                <td>
-                    {% if user.showcases %}
-                    	<a href="{{ path('app_user_showcases_show', {'id' : user.id}) }}" 
-                    	   class="btn btn-success mt-2 mb-2"> 
-                    	   		Show my Showcases list
-                    	</a>
-                    {% else %}     
-                    	<em>no Showcases found</em>
-            		{% endif %}
-            		
-            		<a href="{{ path('app_showcase_new', {'id': user.id}) }}" class="btn btn-warning mt-2 mb-2">Create new Showcase</a>
-                	
-                </td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_user_index') }}" class="btn btn-primary mt-2 mb-2">Back to Users list</a>
-
-
+        <table class="table table-bordered table-striped">
+            <tbody>
+                <tr>
+                    <th scope="row" class="table-primary">Id</th>
+                    <td>{{ user.id }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-primary">Email</th>
+                    <td>{{ user.email }}</td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-primary">Pack</th>
+                    <td>
+                        {% if user.pack %}
+                            <a href="{{ path('pack_show', {'id' : user.pack.id}) }}" class="btn btn-success"> 
+                                Show my Pack
+                            </a>
+                        {% else %}     
+                            <em class="text-muted">No Pack found</em>
+                        {% endif %}
+                    </td>
+                </tr>
+                <tr>
+                    <th scope="row" class="table-primary">Showcases</th>
+                    <td>
+                        {% if user.showcases|length > 0 %}
+                            <a href="{{ path('app_user_showcases_show', {'id' : user.id}) }}" class="btn btn-success"> 
+                                Show my Showcases list
+                            </a>
+                        {% else %}     
+                            <em class="text-muted">No Showcases found</em>
+                        {% endif %}
+                        
+                        <a href="{{ path('app_showcase_new', {'id': user.id}) }}" class="btn btn-warning ms-2">Create new Showcase</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <!-- Navigation Buttons -->
+        <div class="d-flex justify-content-center my-4">
+            <a href="{{ path('home') }}" class="btn btn-secondary mx-2">Back to Home page</a>
+            <a href="{{ path('app_user_index') }}" class="btn btn-primary mx-2">Back to Users list</a>
+        </div>
+    </div>
 {% endblock %}

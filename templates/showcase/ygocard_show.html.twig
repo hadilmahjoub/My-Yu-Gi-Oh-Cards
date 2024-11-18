@@ -57,16 +57,9 @@
                         </tr>
                     </tbody>
                 </table>
-
-                
-                <a href="{{ path('pack_show', {'id': ygo_card.pack.id}) }}" class="btn btn-primary mt-mb-3">Back to Pack</a>
+               
                 <a href="{{ path('app_showcase_show', { 'id': showcase.id}) }}" class="btn btn-success mt-mb-3">Back to Showcase</a>
                 
-                {#TODO I DONO #}
-                {#
-                <a href="{{ path('app_ygo_card_edit', {'id': ygo_card.id}) }}" class="btn btn-success mt-mb-3">Edit</a>
-                {{ include('ygo_card/_delete_form.html.twig') }}
-                #}
                 
             </div>
         </div>

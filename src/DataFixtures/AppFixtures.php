@@ -25,17 +25,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
      
     public function load(ObjectManager $manager): void
     {        
-        // Create a Pack for each user and fill it with random YGO cards
-        /*
-        foreach ($users as $user) {
-            $pack = $this->createPackForUser($manager, $user);
-            $this->fillPackWithRandomYGOCard($manager, $pack);
-            
-            // Create two showcases for the user and fill them with cards from the user's pack
-            $this->loadShowcasesForUser($manager, $user, $pack);
-        }
-        */
-        
         // Récupère les utilisateurs depuis la base de données pour associer les Packs et Showcases
         $userEmails = ['olivier@localhost', 'slash@localhost', 'admin@localhost'];
         
@@ -56,7 +45,6 @@ class AppFixtures extends Fixture implements DependentFixtureInterface
                 
                 $pack = $this->loadPackForUser($manager, $user, $cardsToAddToPack);
                 $this->loadShowcasesForUser($manager, $user, $pack);
-                
             }
         }
         

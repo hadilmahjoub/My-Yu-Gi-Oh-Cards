@@ -20,10 +20,17 @@
                     <th scope="row" class="table-primary">Pack</th>
                     <td>
                         {% if user.pack %}
-                            <a href="{{ path('pack_show', {'id' : user.pack.id}) }}" class="btn btn-success"> 
-                                Show my Pack
-                            </a>
-                        {% else %}     
+                            {% if app.user and (app.user == user or is_granted('ROLE_ADMIN')) %}
+                                <a href="{{ path('pack_show', {'id' : user.pack.id}) }}" class="btn btn-success"> 
+                                    Show my Pack
+                                </a>
+                            {% else %}
+                                <div>
+                                    <button class="btn btn-success" disabled>Show Pack</button>
+                                    <span class="text-danger me-2"> * You can't access another user's pack</span>
+                                </div>
+                            {% endif %}
+                        {% else %}
                             <em class="text-muted">No Pack found</em>
                         {% endif %}
                     </td>
@@ -38,8 +45,6 @@
                         {% else %}     
                             <em class="text-muted">No Showcases found</em>
                         {% endif %}
-                        
-                        <a href="{{ path('app_showcase_new', {'id': user.id}) }}" class="btn btn-warning ms-2">Create new Showcase</a>
                     </td>
                 </tr>
             </tbody>

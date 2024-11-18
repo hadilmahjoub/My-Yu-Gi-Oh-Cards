@@ -5,9 +5,7 @@ bootstrap_menu:
         home:
           label: 'Home'
           route: 'home'
-        users:
-          label: 'Users'
-          route: 'app_user_index'
+
     anonymousaccount:
       items:
         login:
@@ -19,6 +17,9 @@ bootstrap_menu:
         #   route: 'app_register'
     account:
       items:
+        users:
+          label: 'Users'
+          route: 'app_user_index'
         logout:
           label: 'Logout'
           route: 'app_logout'

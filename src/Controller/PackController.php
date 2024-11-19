@@ -5,13 +5,16 @@ namespace App\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use App\Entity\YGOCard;
 use Doctrine\Persistence\ManagerRegistry;
 use App\Entity\Pack;
 
 #[Route('/pack')]
+#[IsGranted('ROLE_USER')]
 class PackController extends AbstractController
 {
+    /*
     #[Route('/', name: 'app_pack')]
     public function index(): Response
     {
@@ -21,10 +24,11 @@ class PackController extends AbstractController
         ]);
         
         // throw $this->createNotFoundException('La page n\'est pas disponible.');
-    }
+    }*/
     
     #[Route('/list', name: 'pack_list', methods: ['GET'])]
     #[Route('/index', name: 'pack_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès refusé : Vous devez être administrateur pour accéder à cette page.')]
     public function listAction(ManagerRegistry $doctrine): Response
     {
         $entityManager= $doctrine->getManager();

@@ -13,13 +13,16 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 use Doctrine\Persistence\ManagerRegistry;
 
 #[Route('/showcase')]
+#[IsGranted('ROLE_USER')]
 final class ShowcaseController extends AbstractController
 {
-    #[Route(name: 'app_showcase_index', methods: ['GET'])]
+    #[Route('/', name:  'app_showcase_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès refusé : Vous devez être administrateur pour accéder à cette page.')]
     public function index(ShowcaseRepository $showcaseRepository): Response
     {
         return $this->render('showcase/index.html.twig', [
@@ -30,6 +33,12 @@ final class ShowcaseController extends AbstractController
     #[Route('/new/{id}', name: 'app_showcase_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, User $user): Response
     {
+        // Contrôle d'accès : seul le user authentifié ou un administrateur peut créer un Pack
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $user) {
+            throw $this->createAccessDeniedException(
+                'Accès refusé : Vous ne pouvez pas créer un Showcase pour un autre user.'
+                );
+        }
         $showcase = new Showcase();
         $showcase->setCreator($user);
         
@@ -57,13 +66,13 @@ final class ShowcaseController extends AbstractController
     public function show(Showcase $showcase): Response
     {
         $hasAccess = false;
+        $currentUser = $this->getUser();
         
-        if($this->isGranted('ROLE_ADMIN') || $showcase->isPublished()) {
+        if( $currentUser && ( $this->isGranted('ROLE_ADMIN') || $showcase->isPublished() )) {
             $hasAccess = true;
         }
         else {
-            $member = $this->getUser();
-            if ( $member &&  ($member == $showcase->getCreator()) ) {
+            if ( $currentUser &&  ($currentUser == $showcase->getCreator()) ) {
                 $hasAccess = true;
             }
         }
@@ -146,6 +155,12 @@ final class ShowcaseController extends AbstractController
     #[Route('/{id}/edit', name: 'app_showcase_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Showcase $showcase, EntityManagerInterface $entityManager): Response
     {
+        // Contrôle d'accès : seul le user authentifié ou un administrateur peut créer un Pack
+        if (!$this->isGranted('ROLE_ADMIN') && $this->getUser() !== $showcase->getCreator()) {
+            throw $this->createAccessDeniedException(
+                'Accès refusé : Vous ne pouvez pas éditer un Showcase d\'un autre user.'
+                );
+        }
         $form = $this->createForm(ShowcaseType::class, $showcase);
         $form->handleRequest($request);
 

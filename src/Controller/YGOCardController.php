@@ -11,11 +11,14 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/ygoCard')]
+#[IsGranted('ROLE_USER')]
 final class YGOCardController extends AbstractController
 {
     #[Route(name: 'app_ygo_card_index', methods: ['GET'])]
+    #[IsGranted('ROLE_ADMIN', message: 'Accès refusé : Vous devez être administrateur pour accéder à cette page.')]
     public function index(ygoCardRepository $ygoCardRepository): Response
     {
         if ($this->isGranted('ROLE_ADMIN')) {
@@ -35,6 +38,13 @@ final class YGOCardController extends AbstractController
     #[Route('/new/{id}', name: 'app_ygo_card_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager, Pack $pack): Response
     {
+        // Vérifier si l'utilisateur connecté est le propriétaire de Pack ou un administrateur
+        $currentUser = $this->getUser();
+        
+        if (!$currentUser || ($currentUser !== $pack->getUser() && !$this->isGranted('ROLE_ADMIN'))) {
+            throw $this->createAccessDeniedException('Accès refusé : Vous n\'avez pas l\'autorisation d\'ajouter une YGOCard à ce Pack.');
+        }
+        
         $ygoCard = new ygoCard();
         $ygoCard->setPack($pack);
         
@@ -85,6 +95,14 @@ final class YGOCardController extends AbstractController
     #[Route('/{id}/edit', name: 'app_ygo_card_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, ygoCard $ygoCard, EntityManagerInterface $entityManager): Response
     {
+        
+        // Vérifier si l'utilisateur connecté est le propriétaire de Pack ou un administrateur
+        $currentUser = $this->getUser();
+        
+        if (!$currentUser || ($currentUser !== $ygoCard->getPack()->getUser() && !$this->isGranted('ROLE_ADMIN'))) {
+            throw $this->createAccessDeniedException('Accès refusé : Vous n\'avez pas l\'autorisation d\'éditer une YGOCard d\'un autre Pack.');
+        }
+        
         $form = $this->createForm(ygoCardType::class, $ygoCard);
         $form->handleRequest($request);
 

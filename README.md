@@ -44,6 +44,21 @@ Le projet est développé en **PHP** avec le framework **Symfony**, et utilise *
 
 ---
 
+## 🛠️ Comptes de test disponibles :
+Pour tester ces fonctionnalités, des comptes avec des rôles spécifiques sont fournis par défaut :
+
+- **olivier@localhost** : Mot de passe `123456` (Rôle : ROLE_USER)
+- **slash@localhost** :  Mot de passe `123456` (Rôle : ROLE_USER)
+- **admin@localhost** : Mot de passe `123456` (Rôle : ROLE_ADMIN)
+
+
+- **Instructions pour tester :**
+    1. Connectez-vous avec l'un des comptes ci-dessus via la page de connexion.
+    2. Essayez d'accéder à un Pack ou un Showcase qui ne vous appartient pas pour vérifier les restrictions.
+    3. Connectez-vous en tant qu'administrateur (`admin@localhost`) pour tester l'accès illimité.
+
+---
+
 ## 🚀 Fonctionnalités principales
 
 L'application propose un système complet de gestion des collections de cartes Yu-Gi-Oh! pour les utilisateurs authentifiés. Les principales fonctionnalités incluent :
@@ -69,8 +84,13 @@ L'application propose un système complet de gestion des collections de cartes Y
 
 ### 🔒 4 | Authentification et autorisations :
 - L’accès à certaines fonctionnalités est conditionné par le rôle de l’utilisateur :
-    - 👤 **Utilisateur normal :** Accès uniquement à son propre Pack, à ses Showcases (publics et privés) et à l'ensemble des Showcases publics des autres utilisateurs.
-    - 🛡️ **Administrateur :** Accès à toutes les données (Packs, Showcases, cartes) sans restriction.
+    - 👤 **Utilisateur normal :** 
+        - Accès uniquement à son propre Pack, à ses Showcases (publics et privés)
+        - - Accès à l'ensemble des Showcases publics des autres utilisateurs.
+        - Gestion (ajout, modification, suppression) limitée à ses propres données.
+    - 🛡️ **Administrateur :** 
+        - Accès à toutes les données (Packs, Showcases, cartes) sans restriction.
+        - Peut gérer les Packs et Showcases des autres utilisateurs si nécessaire.
 - Des boutons spécifiques sont désactivés et des messages explicatifs s'affichent si un utilisateur tente d'accéder au Pack d’un autre utilisateur.
 
 ### 🎨 5 | Interface utilisateur :

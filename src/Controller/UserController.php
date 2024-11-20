@@ -11,7 +11,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
-#[IsGranted('ROLE_USER')]
 class UserController extends AbstractController
 {
     #[Route('/', name: 'home', methods: ['GET'])]
@@ -24,6 +23,7 @@ class UserController extends AbstractController
     }
     
     #[Route('/user', name: 'app_user_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function index(UserRepository $userRepository): Response
     {
         // Affiche la liste des membres
@@ -33,6 +33,7 @@ class UserController extends AbstractController
     }
     
     #[Route('/user/{id}', name: 'app_user_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function show(User $user): Response
     {   
         // Affiche les détails d'un membre spécifique
@@ -44,6 +45,7 @@ class UserController extends AbstractController
     }
     
     #[Route('/user/{id}/showcases', name: 'app_user_showcases_show', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function showShowcases(User $user, ShowcaseRepository $showcaseRepository): Response
     {
         $currentUser = $this->getUser();
